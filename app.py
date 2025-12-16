@@ -10,6 +10,7 @@ from src.vectorstore import create_vectorstore
 from src.retriever import retrieve_context
 from src.generator import get_llm, generate_answer
 
+# ---------------- Page config ----------------
 st.set_page_config(
     page_title="Healthcare RAG Chatbot",
     page_icon="🩺",
@@ -19,14 +20,14 @@ st.set_page_config(
 st.title("🩺 Healthcare Knowledge Chatbot")
 st.caption("Upload healthcare documents (PDF or TXT) and ask questions")
 
-# Session state
+# ---------------- Session state ----------------
 if "vectorstore" not in st.session_state:
     st.session_state.vectorstore = None
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Sidebar — Document upload
+# ---------------- Sidebar: Upload ----------------
 with st.sidebar:
     st.header("📄 Knowledge Base")
 
@@ -43,33 +44,57 @@ with st.sidebar:
             with st.spinner("Processing documents..."):
                 documents = []
 
-                for file in uploaded_files:
-                    with tempfile.NamedTemporaryFile(delete=False) as tmp:
-                        tmp.write(file.read())
+                for uploaded_file in uploaded_files:
+                    suffix = uploaded_file.name.split(".")[-1].lower()
+
+                    with tempfile.NamedTemporaryFile(
+                        delete=False,
+                        suffix=f".{suffix}"
+                    ) as tmp:
+                        tmp.write(uploaded_file.getvalue())
                         temp_path = tmp.name
 
-                    if file.name.lower().endswith(".pdf"):
-                        loader = PyPDFLoader(temp_path)
-                    else:
-                        loader = TextLoader(temp_path)
+                    try:
+                        if suffix == "pdf":
+                            loader = PyPDFLoader(temp_path)
+                        else:
+                            loader = TextLoader(temp_path, encoding="utf-8")
 
-                    documents.extend(loader.load())
-                    os.remove(temp_path)
+                        docs = loader.load()
+                        if docs:
+                            documents.extend(docs)
 
-                embedding_model = get_embedding_model()
-                chunks = chunk_documents(documents)
-                st.session_state.vectorstore = create_vectorstore(
-                    chunks, embedding_model
-                )
+                    except Exception as e:
+                        st.warning(
+                            f"Could not read {uploaded_file.name}: {e}"
+                        )
 
-            st.success("Knowledge base created successfully!")
+                    finally:
+                        os.remove(temp_path)
 
-# Chat history display
+                if not documents:
+                    st.error("No readable text found in uploaded documents.")
+                else:
+                    embedding_model = get_embedding_model()
+                    chunks = chunk_documents(documents)
+                    st.session_state.vectorstore = create_vectorstore(
+                        chunks, embedding_model
+                    )
+
+                    # Reset chat when KB changes
+                    st.session_state.messages = []
+
+                    st.success("Knowledge base created successfully!")
+
+# ---------------- Chat history ----------------
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-user_input = st.chat_input("Ask a question based on the uploaded documents")
+# ---------------- Chat input ----------------
+user_input = st.chat_input(
+    "Ask a question based on the uploaded documents"
+)
 
 if user_input:
     if st.session_state.vectorstore is None:
