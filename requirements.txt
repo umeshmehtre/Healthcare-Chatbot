@@ -3,8 +3,7 @@ langchain
 langchain-community
 langchain-core
 langchain-huggingface
-faiss-cpu
+huggingface-hub
 sentence-transformers
+faiss-cpu
 pypdf
-python-dotenv
-langchain-text-splitters
