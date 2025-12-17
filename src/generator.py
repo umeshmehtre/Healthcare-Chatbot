@@ -1,16 +1,19 @@
+import os
+from langchain_huggingface import HuggingFaceEndpoint, ChatHuggingFace
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from langchain_huggingface import ChatHuggingFace
-import os
 
 
 def get_llm():
-    return ChatHuggingFace(
+    llm_backend = HuggingFaceEndpoint(
         repo_id="meta-llama/Meta-Llama-3-8B-Instruct",
+        task="conversational",
         temperature=0.2,
         max_new_tokens=512,
         huggingfacehub_api_token=os.environ.get("HUGGINGFACEHUB_API_TOKEN"),
     )
+
+    return ChatHuggingFace(llm=llm_backend)
 
 
 def generate_answer(query, context_docs, llm):
