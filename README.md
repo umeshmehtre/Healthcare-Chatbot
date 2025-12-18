@@ -78,7 +78,7 @@ This **does not replace clinical judgment** — it saves time and reduces manual
 6. The model generates an answer strictly from that context
 
 ## Architechture
-![Architechture](assets\image.png)
+![Architechture](assets/image.png)
 
 ```
 healthcare-chatbot/
