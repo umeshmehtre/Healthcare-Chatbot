@@ -1,17 +1,19 @@
-# Healthcare Document Chatbot (RAG using LLaMA-3)
+# 🩺 Healthcare Document Chatbot (RAG using LLaMA-3)
 
 ## What is this project?
 
-This project is a document-based healthcare chatbot.
+This project is a **document-based healthcare chatbot**.
 
 Instead of answering questions from general internet knowledge, the chatbot:
 - reads healthcare documents (PDF or TXT)
 - understands their content
-- answers questions only from those documents
+- answers questions **only from those documents**
 
 If the information is not present in the uploaded documents, the chatbot clearly says that it does not know.
 
-This approach is called Retrieval-Augmented Generation (RAG).
+This approach is called **Retrieval-Augmented Generation (RAG)**.
+
+---
 
 ## Why healthcare?
 
@@ -24,9 +26,11 @@ Patients, doctors, and hospital staff deal with:
 - treatment protocols
 - patient history records
 
-Most of this information already exists — the problem is finding the right part quickly.
+Most of this information already exists — the problem is **finding the right part quickly**.
 
 This project focuses on solving that problem safely.
+
+---
 
 ## How is this useful for patients?
 
@@ -42,6 +46,8 @@ With this chatbot:
 
 This reduces confusion and improves understanding without replacing doctors.
 
+---
+
 ## How is this useful for doctors and hospital staff?
 
 Doctors and staff spend a lot of time:
@@ -56,7 +62,9 @@ In the future, this system can be extended so that:
   - “Does the patient have a history of diabetes?”
 - the system retrieves answers directly from the patient’s records
 
-This does not replace clinical judgment — it saves time and reduces manual searching.
+This **does not replace clinical judgment** — it saves time and reduces manual searching.
+
+---
 
 ## How does the system work? (Simple explanation)
 
@@ -69,24 +77,17 @@ This does not replace clinical judgment — it saves time and reduces manual sea
    - those chunks are sent to the language model
 6. The model generates an answer strictly from that context
 
-![## Architectural Diagram](image.png)
+## Architechture
+assets\image.png
 
-## Technologies used
-
-- LLaMA-3-8B-Instruct (Meta)
-- LangChain
-- FAISS
-- Sentence Transformers
-- Streamlit
-- Hugging Face Inference API
-
-## Project structure
-
+```
 healthcare-chatbot/
 │
 ├── app.py
+│   Main Streamlit application
+│
 ├── requirements.txt
-├── README.md
+│   Python dependencies
 │
 ├── src/
 │   ├── embeddings.py
@@ -94,42 +95,53 @@ healthcare-chatbot/
 │   ├── vectorstore.py
 │   ├── retriever.py
 │   └── generator.py
+```
+---
 
-
-## Running the project locally
+## How to run the project locally
 
 1. Install dependencies:
+   ```bash
    pip install -r requirements.txt
 
 2. Set your Hugging Face API token:
+   ```bash
    export HUGGINGFACEHUB_API_TOKEN=hf_your_token_here
 
-3. Run the app:
+3. Start the application:
+   ```bash   
    streamlit run app.py
-
 
 ## Deployment
 
-The application is deployed using Streamlit Cloud.
+The application is deployed using **Streamlit Cloud.**
 
 Steps:
+
 1. Push the repository to GitHub
 2. Create a Streamlit Cloud app
 3. Select app.py as the entry point
 4. Add HUGGINGFACEHUB_API_TOKEN as a secret
 5. Deploy
 
+## Future work and extensions
 
-## Future work
+This project is intentionally designed to be extendable.
+
+Possible future improvements:
 
 - Secure patient-specific document storage
-- Role-based access for doctors and patients
-- Search across patient medical history
+- Role-based access (doctor vs patient)
+- Search across patient history records
 - Integration with hospital information systems
-- Compliance logging and auditing
+- Audit logs for medical compliance
+- Support for structured medical data
 
-## Disclaimer
+These features would require strong security, privacy, and regulatory controls.
 
-This chatbot is not a medical professional.
+## Important disclaimer
 
-It provides information strictly based on uploaded documents and must not replace professional medical advice.
+This chatbot is **not a medical professional.**
+
+It provides information strictly based on uploaded documents and should **never replace medical advice.**
+All medical decisions must be made by qualified healthcare professionals.
