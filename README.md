@@ -95,6 +95,8 @@ healthcare-chatbot/
 │   ├── vectorstore.py
 │   ├── retriever.py
 │   └── generator.py
+├── assests
+│   ├── image.png 
 ```
 ---
 
