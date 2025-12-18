@@ -79,7 +79,6 @@ This **does not replace clinical judgment** — it saves time and reduces manual
 
 ## Architechture
 ![Architechture](assets/image.png)
-
 ```
 healthcare-chatbot/
 │
