@@ -97,7 +97,7 @@ healthcare-chatbot/
 │   └── generator.py
 |
 ├── assests
-│   ├── image.png 
+│   └── image.png 
 ```
 ---
 
