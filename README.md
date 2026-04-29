@@ -1,5 +1,5 @@
 # 🩺 Healthcare Document Chatbot (RAG using LLaMA-3)
-## [Live Demo:](https://healthcare-chatbot-llama.streamlit.app/)
+## [Live Demo](https://healthcare-chatbot-llama.streamlit.app/)
 
 ## What is this project?
 
